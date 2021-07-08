@@ -326,13 +326,16 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   */
   Future<void> _testViewItemList() async {
+    final String teste;
+    teste = 'SKU_12345';
     await widget.analytics.logEvent(
       name: 'view_item_list',
       parameters: {
-        'item_list_id': 'TestandoEventoPersonalizado',
+        'item_list_name': 'TestandoName',
+        'item_list_id': 'TestandoID',
         'items': [
           {
-            'item_id': 'SKU_12345',
+            'item_id': teste,
             'item_name': 'Camisa One Piece',
             'item_category': 'Anime',
           },
