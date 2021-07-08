@@ -8,6 +8,7 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/observer.dart';
+import 'package:flutter/services.dart';
 
 import 'tabs_page.dart';
 
@@ -66,7 +67,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-  Future<void> _sendAnalyticsEvent() async {
+/*   Future<void> _sendAnalyticsEvent() async {
     await widget.analytics.logEvent(
       name: 'test_event',
       parameters: <String, dynamic>{
@@ -81,7 +82,7 @@ class _MyHomePageState extends State<MyHomePage> {
   }
 
   Future<void> _testSetUserId() async {
-    await widget.analytics.setUserId('some-user');
+    await widget.analytics.setUserId('xoblinha-compra-muito');
     setMessage('setUserId succeeded');
   }
 
@@ -241,7 +242,7 @@ class _MyHomePageState extends State<MyHomePage> {
     await widget.analytics.logTutorialBegin();
     await widget.analytics.logTutorialComplete();
     await widget.analytics.logUnlockAchievement(id: 'all Firebase API covered');
-    await widget.analytics.logViewItem(
+    /* await widget.analytics.logViewItem(
       itemId: 'test item id',
       itemName: 'test item name',
       itemCategory: 'test item category',
@@ -260,14 +261,105 @@ class _MyHomePageState extends State<MyHomePage> {
       endDate: '2015-09-15',
       searchTerm: 'test search term',
       travelClass: 'test travel class',
-    );
+    ); */
     await widget.analytics.logViewItemList(
-      itemCategory: 'test item category',
+      itemListId: 'related_teste_007',
+      itemListName: 'Produtos relacionados007',
     );
     await widget.analytics.logViewSearchResults(
       searchTerm: 'test search term',
     );
     setMessage('All standard events logged successfully');
+  }
+
+  Future<void> _testEcommerce() async {
+    await widget.analytics.logEcommercePurchase(
+      currency: 'USD',
+      value: 60.35,
+      transactionId: 'test tx id',
+      tax: 3.45,
+      shipping: 5.67,
+      coupon: 'test coupon',
+      location: 'test location',
+      numberOfNights: 3,
+      numberOfRooms: 4,
+      numberOfPassengers: 5,
+      origin: 'test origin',
+      destination: 'test destination',
+      startDate: '2015-09-13',
+      endDate: '2015-09-14',
+      travelClass: 'test travel class',
+    );
+    setMessage('Sent EcomercePurchase');
+  }
+
+  Future<void> _testViewItem() async {
+    await widget.analytics.logViewItem(
+      itemId: 'SKU_2345',
+      itemName: 'moletom-com-hoodie',
+      price: 9.99,
+      itemBrand: 'AttackOnTitan',
+      itemCategory: 'moletom',
+      itemVariant: 'Preto',
+      itemListName: 'Produtos relacionados007',
+      itemListId: 'related_teste_007',
+      index: 5,
+      quantity: 1,
+    );
+    await widget.analytics.logViewItem(
+      itemId: 'SKU_5111',
+      itemName: 'chinela',
+      price: 11.22,
+      itemBrand: 'OnePiece',
+      itemCategory: 'sandalias',
+      itemVariant: 'azul',
+      itemListName: 'Produtos relacionados007',
+      itemListId: 'related_teste_007',
+      index: 10,
+      quantity: 3,
+    );
+    await widget.analytics.logViewItemList(
+      itemListId: 'related_teste_007',
+      itemListName: 'Produtos relacionados007',
+    );
+    setMessage('Sent ViewProduct');
+  }
+  */
+  Future<void> _testViewItemList() async {
+    await widget.analytics.logEvent(
+      name: 'view_item_list',
+      parameters: {
+        'item_list_id': 'TestandoEventoPersonalizado',
+        'items': [
+          {
+            'item_id': 'SKU_12345',
+            'item_name': 'Camisa One Piece',
+            'item_category': 'Anime',
+          },
+          {
+            'item_id': 'SKU_54321',
+            'item_name': 'Chinelo Naruto',
+            'item_category': 'Anime',
+          },
+        ],
+      },
+    );
+  }
+
+  Future<void> _addToCart() async {
+    await widget.analytics.logAddToCart(
+      itemName: 'jegging',
+      itemId: 'SKU_12345',
+      price: 9.99,
+      itemBrand: 'Gucci',
+      itemCategory: 'calça',
+      itemVariant: 'Preto',
+      itemListName: 'Produtos relacionados',
+      itemListId: 'related_products',
+      index: 5,
+      quantity: 2,
+    );
+    setMessage('Sent AddToCart');
   }
 
   @override
@@ -279,32 +371,12 @@ class _MyHomePageState extends State<MyHomePage> {
       body: Column(
         children: <Widget>[
           MaterialButton(
-            onPressed: _sendAnalyticsEvent,
-            child: const Text('Test logEvent'),
+            onPressed: _testViewItemList,
+            child: const Text('Test ViewItemList'),
           ),
           MaterialButton(
-            onPressed: _testAllEventTypes,
-            child: const Text('Test standard event types'),
-          ),
-          MaterialButton(
-            onPressed: _testSetUserId,
-            child: const Text('Test setUserId'),
-          ),
-          MaterialButton(
-            onPressed: _testSetCurrentScreen,
-            child: const Text('Test setCurrentScreen'),
-          ),
-          MaterialButton(
-            onPressed: _testSetAnalyticsCollectionEnabled,
-            child: const Text('Test setAnalyticsCollectionEnabled'),
-          ),
-          MaterialButton(
-            onPressed: _testSetSessionTimeoutDuration,
-            child: const Text('Test setSessionTimeoutDuration'),
-          ),
-          MaterialButton(
-            onPressed: _testSetUserProperty,
-            child: const Text('Test setUserProperty'),
+            onPressed: _addToCart,
+            child: const Text('Test AddToCart'),
           ),
           Text(_message,
               style: const TextStyle(color: Color.fromARGB(255, 0, 155, 0))),
