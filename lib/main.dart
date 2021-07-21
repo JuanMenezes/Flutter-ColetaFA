@@ -8,7 +8,6 @@ import 'package:firebase_analytics/firebase_analytics.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:firebase_analytics/observer.dart';
-import 'package:flutter/services.dart';
 
 import 'tabs_page.dart';
 
@@ -67,7 +66,7 @@ class _MyHomePageState extends State<MyHomePage> {
     });
   }
 
-/*   Future<void> _sendAnalyticsEvent() async {
+   Future<void> _sendAnalyticsEvent() async {
     await widget.analytics.logEvent(
       name: 'test_event',
       parameters: <String, dynamic>{
@@ -93,7 +92,7 @@ class _MyHomePageState extends State<MyHomePage> {
     );
     setMessage('setCurrentScreen succeeded');
   }
-
+/*
   Future<void> _testSetAnalyticsCollectionEnabled() async {
     await widget.analytics.setAnalyticsCollectionEnabled(false);
     await widget.analytics.setAnalyticsCollectionEnabled(true);
@@ -326,8 +325,6 @@ class _MyHomePageState extends State<MyHomePage> {
   }
   */
   Future<void> _testViewItemList() async {
-    final String teste;
-    teste = 'SKU_12345';
     await widget.analytics.logEvent(
       name: 'view_item_list',
       parameters: {
@@ -335,7 +332,7 @@ class _MyHomePageState extends State<MyHomePage> {
         'item_list_id': 'TestandoID',
         'items': [
           {
-            'item_id': teste,
+            'item_id': 'SKU_12345',
             'item_name': 'Camisa One Piece',
             'item_category': 'Anime',
           },
@@ -354,16 +351,20 @@ class _MyHomePageState extends State<MyHomePage> {
       itemName: 'jegging',
       itemId: 'SKU_12345',
       price: 9.99,
-      itemBrand: 'Gucci',
       itemCategory: 'calça',
-      itemVariant: 'Preto',
-      itemListName: 'Produtos relacionados',
-      itemListId: 'related_products',
-      index: 5,
       quantity: 2,
     );
     setMessage('Sent AddToCart');
   }
+  Future<void> _enviaUA() async {
+    await widget.analytics.logEvent(
+      name: 'funciona_cart',
+      parameters: {
+        'screen_name': 'teste sucesso UA',
+      },
+    );
+  }
+
 
   @override
   Widget build(BuildContext context) {
@@ -380,6 +381,22 @@ class _MyHomePageState extends State<MyHomePage> {
           MaterialButton(
             onPressed: _addToCart,
             child: const Text('Test AddToCart'),
+          ),
+          MaterialButton(
+            onPressed: _testSetCurrentScreen,
+            child: const Text('Test set current screen'),
+          ),
+          MaterialButton(
+            onPressed: _testSetUserId,
+            child: const Text('Test set user ID'),
+          ),
+          MaterialButton(
+            onPressed: _sendAnalyticsEvent,
+            child: const Text('Evento teste'),
+          ),
+          MaterialButton(
+            onPressed: _enviaUA,
+            child: const Text('Evento teste UA'),
           ),
           Text(_message,
               style: const TextStyle(color: Color.fromARGB(255, 0, 155, 0))),
